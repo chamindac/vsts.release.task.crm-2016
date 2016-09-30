@@ -1819,11 +1819,11 @@ function Import-CrmSolution{
         }
         $tmpDest = $conn.CrmConnectOrgUriActual
         Write-Host "Importing solution file $SolutionFilePath into: $tmpDest" 
-        Write-Verbose "OverwriteCustomizations: $OverwriteUnManagedCustomizations"
-        Write-Verbose "SkipDependancyCheck: $SkipDependancyOnProductUpdateCheckOnInstall"
-		Write-Verbose "ImportAsHoldingSolution: $ImportAsHoldingSolution"
-        Write-Verbose "Maximum seconds to poll for successful completion: $MaxWaitTimeInSeconds"
-        Write-Verbose "Calling .ImportSolutionToCrm() this process can take minutes..."
+        Write-Host "OverwriteCustomizations: $OverwriteUnManagedCustomizations"
+        Write-Host "SkipDependancyCheck: $SkipDependancyOnProductUpdateCheckOnInstall"
+		Write-Host "ImportAsHoldingSolution: $ImportAsHoldingSolution"
+        Write-Host "Maximum seconds to poll for successful completion: $MaxWaitTimeInSeconds"
+        Write-Host "Calling .ImportSolutionToCrm() this process can take minutes..."
         $result = $conn.ImportSolutionToCrm($SolutionFilePath, [ref]$importId, $ActivatePlugIns,
                 $OverwriteUnManagedCustomizations, $SkipDependancyOnProductUpdateCheckOnInstall,$ImportAsHoldingSolution)
         <#
@@ -1853,7 +1853,7 @@ function Import-CrmSolution{
 				if($TopPrevProcPercent -gt $ProcPercent)
 				{
 					$isProcPercentReduced = $true
-					Write-Verbose "Processing is reversing... import will fail."
+					Write-Host "Processing is reversing... import will fail."
 				}else
 				{
 					$TopPrevProcPercent = $ProcPercent
@@ -1863,12 +1863,12 @@ function Import-CrmSolution{
 				if($import.completedon -eq $null -and $importManifest.result.result -ne "success"){
 					$isProcessing = $true
 					$secondsSpentPolling = ([Int]((Get-Date) - $pollingStart).TotalSeconds)
-					Write-Output "$($secondsSPentPolling.ToString("000")) seconds of max: $MaxWaitTimeInSeconds ... ImportJob%: $ProcPercent"
+					Write-Host "$($secondsSPentPolling.ToString("000")) seconds of max: $MaxWaitTimeInSeconds ... ImportJob%: $ProcPercent"
 				}
 				else{
-					Write-Verbose "Processing Completed at: $($import.completedon) with ImportJob%: $ProcPercent" 
+					Write-Host "Processing Completed at: $($import.completedon) with ImportJob%: $ProcPercent" 
 
-                    Write-Verbose "Import Manifest Result: $($importManifest.result.result) with ImportJob%: $ProcPercent" 					
+                    Write-Host "Import Manifest Result: $($importManifest.result.result) with ImportJob%: $ProcPercent" 					
 
                     $solutionImportResults =  Select-Xml -Xml ([xml]$import.data) -XPath "//result"
 
@@ -1884,7 +1884,7 @@ function Import-CrmSolution{
                             $itemResult = $($solutionImportResult.Node.result)
                         }catch{}
 
-                        Write-Verbose "Item:$resultParent  result: $itemResult" # write each item result in result data
+                        Write-Host "Item:$resultParent  result: $itemResult" # write each item result in result data
                         
                         if ($solutionImportResult.Node.result -ne "success")
                         {
@@ -1899,7 +1899,7 @@ function Import-CrmSolution{
 
                             }catch{}
 
-                            Write-Verbose "errorcode: $errorCode errortext: $errorText more details: $moreErrorDetails"
+                            Write-Host "errorcode: $errorCode errortext: $errorText more details: $moreErrorDetails"
 
                             if ($solutionImportResult.Node.result -eq "failure") # Fail only on errors, not on warnings
                             {
@@ -1912,7 +1912,7 @@ function Import-CrmSolution{
 
 					if(-not $isProcPercentReduced -and $importManifest.result.result -eq "success" -and (-not $anyFailuresInImport))
 					{
-                        Write-Verbose "Setting to 100% since all results are success"
+                        Write-Host "Setting to 100% since all results are success"
 						$ProcPercent = 100.0
 					}					
 					$isProcessing = $false
@@ -1931,7 +1931,7 @@ function Import-CrmSolution{
 		#detect a failure by a failure result OR the percent being less than 100%
         if(($importManifest.result.result -eq "failure") -or ($ProcPercent -lt 100) -or $anyFailuresInImport) #Must look at %age instead of this result as the result is usually wrong!
         {
-            Write-Verbose "Import result: failed - job with ID: $importId failed at $ProcPercent complete."
+            Write-Host "Import result: failed - job with ID: $importId failed at $ProcPercent complete."
             throw $allErrorText
             #errors already printed no need to reprint
             <#try{
@@ -1975,16 +1975,16 @@ function Import-CrmSolution{
             if($managedsolution -ne 1)
             {
                 if($PublishChanges){
-                    Write-Verbose "PublishChanges set, executing: Publish-CrmAllCustomization using the same connection."
+                    Write-Host "PublishChanges set, executing: Publish-CrmAllCustomization using the same connection."
                     Publish-CrmAllCustomization -conn $conn
                 }
                 else{
-                    Write-Output "Import Complete, don't forget to publish customizations."
+                    Write-Host "Import Complete, don't forget to publish customizations."
                 }
             }
 			else{
 				#managed
-                Write-Output "Import of managed solution complete."
+                Write-Host "Import of managed solution complete."
 			}
         }
     }
@@ -4706,8 +4706,8 @@ function DeleteAndPromote-CrmSolution{
 
 		$tmpDest = $conn.CrmConnectOrgUriActual
         Write-Host "Promoting solution: $SolutionName in: $tmpDest" 
-        Write-Verbose "Maximum seconds to wait for successful completion: $MaxWaitTimeInSeconds"
-        Write-Verbose "Calling .ExecuteCrmOrganizationRequest() this process can take minutes..."
+        Write-Host "Maximum seconds to wait for successful completion: $MaxWaitTimeInSeconds"
+        Write-Host "Calling .ExecuteCrmOrganizationRequest() this process can take minutes..."
         $PromoteResponse = $conn.ExecuteCrmOrganizationRequest($PromoteRequest)
 		
         if (($PromoteResponse -eq $null) -or (-not $PromoteResponse.Results.ContainsKey("SolutionId")))
