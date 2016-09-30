@@ -1,0 +1,98 @@
+{
+  "manifestVersion": 1,
+  "id": "chamindac-vsts-release-task-crm-2016",
+  "version": "1.1.5",
+  "name": "CRM 2016",
+  "scopes": [ "vso.work", "vso.work_write" ],
+  "description": "CRM 2016 tasks to import CRM Solutions and activate workflows. Support CRM Online and CRM 2016 on-premise.",
+  "baseUri": "https://localhost",
+  "publisher": "chamindac",
+  "public": true,
+  "icons": {
+    "default": "img/logo.png"
+  },
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "tags": [
+    "Sample"
+  ],
+  "screenshots": [
+    {
+      "path": "img/screenshots/CRM2016-01.png"
+    },
+    {
+      "path": "img/screenshots/CRM2016-02.png"
+    },
+    {
+      "path": "img/screenshots/CRM2016-03.png"
+    }
+  ],
+  "content": {
+    "details": {
+      "path": "Docs/readme.md"
+    },
+    "license": {
+      "path": "Docs/license.txt"
+    }
+  },
+  "links": {
+    "home": {
+      "uri": "https://github.com/chamindac/vsts.release.task.crm-2016"
+    },
+    "getstarted": {
+      "uri": "https://github.com/chamindac/vsts.release.task.crm-2016/wiki"
+    },
+    "learn": {
+      "uri": "https://github.com/chamindac/vsts.release.task.crm-2016/wiki"
+    },
+    "support": {
+      "uri": "https://github.com/chamindac/vsts.release.task.crm-2016/wiki"
+    },
+    "repository": {
+      "uri": "https://github.com/chamindac/vsts.release.task.crm-2016"
+    },
+    "issues": {
+      "uri": "https://github.com/chamindac/vsts.release.task.crm-2016/issues"
+    }
+  },
+  "branding": {
+    "color": "rgb(220, 235, 252)",
+    "theme": "light"
+  },
+  "files": [
+    {
+      "path": "activate-crm-workflows"
+    },
+    {
+      "path": "import-crm-solution"
+    }
+  ],
+  "categories": [
+    "Build and release"
+  ],
+  "contributions": [
+    {
+      "id": "activate-crm-workflows",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "activate-crm-workflows"
+      }
+    },
+    {
+      "id": "import-crm-solution",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "type": "ms.vss-distributed-task.task",
+      "properties": {
+        "name": "import-crm-solution"
+      }
+    }
+  ]
+}
