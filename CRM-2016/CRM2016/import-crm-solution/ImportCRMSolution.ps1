@@ -22,7 +22,7 @@ param(
    )
 
 $ErrorActionPreference = "Stop"
-Write-Host "Version 1.1.5"
+Write-Host "Version 1.1.6"
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 
 

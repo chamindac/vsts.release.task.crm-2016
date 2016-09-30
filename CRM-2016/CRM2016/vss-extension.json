@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "id": "chamindac-vsts-release-task-crm-2016",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "name": "CRM 2016",
   "scopes": [ "vso.work", "vso.work_write" ],
   "description": "CRM 2016 tasks to import CRM Solutions and activate workflows. Support CRM Online and CRM 2016 on-premise.",
@@ -17,7 +17,11 @@
     }
   ],
   "tags": [
-    "Sample"
+    "CRM",
+    "Solution",
+    "Import",
+    "Workflow",
+    "Activate"
   ],
   "screenshots": [
     {
